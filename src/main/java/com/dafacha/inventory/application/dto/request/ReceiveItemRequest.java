@@ -1,0 +1,36 @@
+package com.dafacha.inventory.application.dto.request;
+
+import jakarta.validation.constraints.DecimalMin;
+import jakarta.validation.constraints.Digits;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Positive;
+import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.math.BigDecimal;
+import java.time.LocalDate;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+public class ReceiveItemRequest {
+
+    @NotNull(message = "La línea es obligatoria")
+    @Positive(message = "La línea no es válida")
+    private Long lineId;
+
+    @NotNull(message = "La cantidad es obligatoria")
+    @DecimalMin(value = "0.0", inclusive = false, message = "La cantidad debe ser mayor a 0")
+    @Digits(integer = 11, fraction = 3, message = "La cantidad admite como máximo 11 enteros y 3 decimales")
+    private BigDecimal quantity;
+
+    /** Required when the line's product tracks expiry. */
+    private LocalDate expiryDate;
+
+    @Size(max = 50, message = "El número de lote admite como máximo 50 caracteres")
+    private String lotNumber;
+}
